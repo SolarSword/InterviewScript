@@ -60,4 +60,16 @@
     - `ZADD wyf 96 dawankuanmian`
     - 获取cxk分数最高的前两部作品`ZREVRANGE cxk 0 2 WITHSCORES`
   - **电话、姓名排序**
-- **BitMap**，位图，一串连续的二进制数组，可以通过偏移量定位元素。适合数据量的二值统计场景。命令
+- **BitMap**，位图，一串连续的二进制数组，可以通过偏移量定位元素。适合数据量的二值统计场景。命令：`SETBIT key offset value`，value只能是0或1。
+  - **签到统计**
+    - 即使一年的签到也就只需要365个bit位而已。`SETBIT uid:attendance:100:202306 2 1` 表示user_id是100的用户在2023.6.3签到
+  - **判断用户登录状态**
+    - 只需要用一个很长的BitMap，每一位表示相应offset对应的user_id的用户的登录状态即可。5000万用户的登录状态也仅需要约6MB的空间。
+- **Stream**，专为消息队列设计的数据类型
+  - **消息队列**
+    - 生产者插入 `XADD mq * name cxk` `mq`是消息队列名，`name`是key，`cxk`是value。成功后会返回全局唯一ID。
+    - 消息保序：`XADD/XREAD`
+    - 阻塞读取：`XREAD BLOCK`
+    - 重复消息处理：`XADD`会生成全局唯一ID
+    - 消息可靠性：Stream有内部队列`PENDING List`作留存；消费者用`XACK`确认消息处理完成。
+    - 支持消费组
