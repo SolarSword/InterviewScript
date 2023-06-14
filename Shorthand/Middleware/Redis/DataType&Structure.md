@@ -73,3 +73,8 @@
     - 重复消息处理：`XADD`会生成全局唯一ID
     - 消息可靠性：Stream有内部队列`PENDING List`作留存；消费者用`XACK`确认消息处理完成。
     - 支持消费组
+
+# Redis的Zset类型的底层实现是什么？
+Zset有两种实现：
+- ziplist：满足 1. value-score键值对数量少于128个 2.每个元素的长度小于64字节 时使用这种实现
+- skiplist：不满足以上两个条件时，再使用跳表这种实现，它组合使用了hash和skiplist。1. hash用来存储value到score的映射 2.skiplist按照从小到大的顺序存储分数 3. skiplist每个元素的值都是value-score对。
