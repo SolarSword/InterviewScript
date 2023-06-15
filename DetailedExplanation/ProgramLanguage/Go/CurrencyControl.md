@@ -35,3 +35,6 @@ M：在没有足够数量的M来关联P去运行G时，M就会被创建。
 
 ## go func()的调度流程示意图
 ![go func() schedule process](gofunc()scheduleprocess.png)
+
+## 调度的生命周期
+![Scheduler Lifecycle](schedulerLifecycle.png)
