@@ -2,8 +2,8 @@
 >Redis的数据类型是指键值对的value的类型。
 - **String**，最*基本*的key-value结构。key是唯一标识；value是具体的值，可以是字符串，也可以是整数或浮点数: 
   - **缓存对象**
-    - 使用String来缓存对象的整个JSON： SET user:1 '{"name":"cxk", "birth":"1998-08-02"}'
-    - 将key分离成类似 user:{id}:{attribute}来用作缓存：MSET user:1:name cxk user:1:birth 1998-08-02 user:2:name wyf user:2:birth 1990-11-06
+    - 使用String来缓存对象的整个JSON： `SET user:1 '{"name":"cxk", "birth":"1998-08-02"}'`
+    - 将key分离成类似 `user:{id}:{attribute}`来用作缓存：`MSET user:1:name cxk user:1:birth 1998-08-02 user:2:name wyf user:2:birth 1990-11-06`
   - **常规计数**
     - 因为Redis处理命令是单线程，所以执行命令的过程是原子的。因此String数据类型适合计数场景，如计算访问次数、点赞、转发、库存数量等。例如：`SET article:readcount:1001 0`, `INCR article:readcount:1001`
   - **分布式锁**
